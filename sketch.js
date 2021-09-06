@@ -1,6 +1,8 @@
 var bow , arrow,  scene;
 var bowImage, arrowImage, green_balloonImage, red_balloonImage, pink_balloonImage ,blue_balloonImage, backgroundImage;
-
+var redB, blueB, pinkB, greenB;
+var arrowGroup;
+var red_Balloon;
 var score=0;
 
 function preload(){
@@ -30,7 +32,15 @@ function setup() {
   bow.addImage(bowImage); 
   bow.scale = 1;
   
-   score = 0    
+   score = 0   
+   
+   redB = new Group();
+
+   blueB = new Group();
+   greenB = new Group();
+   pinkB = new Group();
+
+   arrowGroup = new Group();
 }
 
 function draw() {
@@ -41,6 +51,7 @@ function draw() {
     if (scene.x < 0){
       scene.x = scene.width/2;
     }
+    
   
   //moving bow
   bow.y = World.mouseY
@@ -49,8 +60,9 @@ function draw() {
   if (keyDown("space")) {
     createArrow();
     
+    
   }
-   
+  isTouching();
   //creating continous enemies
   var select_balloon = Math.round(random(1,4));
   
@@ -80,6 +92,7 @@ function draw() {
   arrow.velocityX = -4;
   arrow.lifetime = 100;
   arrow.scale = 0.3;
+  arrowGroup.add(arrow);
 }
 
 function redBalloon() {
@@ -88,6 +101,7 @@ function redBalloon() {
   red.velocityX = 3;
   red.lifetime = 150;
   red.scale = 0.1;
+  redB.add(red);
 }
 
 function blueBalloon() {
@@ -96,6 +110,7 @@ function blueBalloon() {
   blue.velocityX = 3;
   blue.lifetime = 150;
   blue.scale = 0.1;
+  blueB.add(blue);
 }
 
 function greenBalloon() {
@@ -104,6 +119,7 @@ function greenBalloon() {
   green.velocityX = 3;
   green.lifetime = 150;
   green.scale = 0.1;
+  greenB.add(green);
 }
 
 function pinkBalloon() {
@@ -112,4 +128,34 @@ function pinkBalloon() {
   pink.velocityX = 3;
   pink.lifetime = 150;
   pink.scale = 1
+  pinkB.add(pink);
+}
+
+function isTouching(){
+  if(arrowGroup.isTouching(redB)){
+    redB.destroyEach();
+      arrowGroup.destroyEach();
+      score = score + 1;
+  }
+  if(arrowGroup.isTouching(blueB)){
+      blueB.destroyEach();
+      arrowGroup.destroyEach();
+      score = score + 3;
+  }
+  if(arrowGroup.isTouching(greenB)){
+    greenB.destroyEach();
+    arrowGroup.destroyEach();
+    score = score + 2;
+  }
+  if(arrowGroup.isTouching(pinkB)){
+    pinkB.destroyEach();
+    arrowGroup.destroyEach();
+    score = score + 4;
+  }
+    
+
+
+  
+
+
 }
